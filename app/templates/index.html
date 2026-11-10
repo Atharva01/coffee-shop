@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Coffee Beans - Bean Shop{% endblock %}
+{% block content %}
+<h1>Coffee Beans</h1>
+<section class="grid">
+  {% for p in products %}
+  <article class="card">
+    <h2>{{ p.name }}</h2>
+    <p>{{ p.description }}</p>
+    <p>{{ p.weight_grams }} g</p>
+    <p class="price">{{ "%.2f"|format(p.price_cents / 100) }}</p>
+    <button type="button" class="add-to-cart"
+            data-id="{{ p.id }}" data-name="{{ p.name }}" data-price="{{ p.price_cents }}"
+            {% if p.stock == 0 %}disabled{% endif %}>
+      {% if p.stock == 0 %}Out of stock{% else %}Add to cart{% endif %}
+    </button>
+  </article>
+  {% else %}
+  <p>No products available.</p>
+  {% endfor %}
+</section>
+{% endblock %}

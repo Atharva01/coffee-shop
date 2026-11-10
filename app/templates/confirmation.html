@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Order confirmed - Bean Shop{% endblock %}
+{% block content %}
+<h1>Thank you, your order is placed</h1>
+<p>Order id: <strong>{{ order.id }}</strong></p>
+<p>Status: {{ order.status }}</p>
+
+<h2>Shipping to</h2>
+<address>
+  {{ order.customer_name }}<br>
+  {{ order.address_line }}<br>
+  {{ order.city }}, {{ order.postal_code }}<br>
+  {{ order.country }}<br>
+  {{ order.email }} / {{ order.phone }}
+</address>
+
+<h2>Items</h2>
+<table class="cart-table">
+  <thead>
+    <tr><th>Product id</th><th>Quantity</th><th>Unit price</th><th>Line total</th></tr>
+  </thead>
+  <tbody>
+    {% for i in order.items %}
+    <tr>
+      <td>{{ i.product_id }}</td>
+      <td>{{ i.quantity }}</td>
+      <td>{{ "%.2f"|format(i.unit_price_cents / 100) }}</td>
+      <td>{{ "%.2f"|format(i.unit_price_cents * i.quantity / 100) }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+  <tfoot>
+    <tr><th colspan="3">Total</th><td>{{ "%.2f"|format(order.total_cents / 100) }}</td></tr>
+  </tfoot>
+</table>
+<p><a href="/">Continue shopping</a></p>
+{% endblock %}
